@@ -3,6 +3,7 @@ import initializeRoutes from './app/routes/init.js';
 import { APIError, NotFoundError } from './utils/api-errors.js';
 import { error } from './utils/responseHandlers.js';
 import 'dotenv/config';
+import initializeDb from './config/db.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT, async () => {
+  await initializeDb();
   console.log(`Example app listening on port ${process.env.PORT}`);
 });

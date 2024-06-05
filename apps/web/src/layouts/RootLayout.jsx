@@ -1,4 +1,4 @@
-const RootLayout = ({ children = <></> }) => {
+const RootLayout = ({ children }) => {
   return <div className="">{children}</div>;
 };
 
