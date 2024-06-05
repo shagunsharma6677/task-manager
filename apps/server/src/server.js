@@ -5,7 +5,6 @@ import { error } from './utils/responseHandlers.js';
 import 'dotenv/config';
 
 const app = express();
-const port = 5008;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
@@ -29,6 +28,6 @@ app.use((err, req, res, next) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Example app listening on port ${process.env.PORT}`);
 });
