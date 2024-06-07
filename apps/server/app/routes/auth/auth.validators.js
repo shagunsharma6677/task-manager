@@ -1,15 +1,12 @@
-import { body, check, query, header, param } from 'express-validator';
+import { check, validationResult } from 'express-validator';
 import commonlyUsedPasswords from '../../../config/commonlyUsedPasswords.js';
-import { validationResult } from 'express-validator';
 
 export default class Validators {
   static userSignupValidator() {
     try {
-      console.log('here');
       return [
-        ...Validators.emailValidator(),
         ...Validators.userNameValidator(),
-        ...Validators.basicInfoValidator(),
+        ...Validators.authUserPasswordValidator(),
       ];
     } catch (error) {
       console.log(error);
@@ -26,15 +23,15 @@ export default class Validators {
 
   static userNameValidator() {
     try {
-      return [check('name').exists().withMessage('name')];
+      return [check('username').exists().withMessage('username')];
     } catch (error) {
       return error;
     }
   }
-  static authUserPasswordValidator(keyObj = { key: 'password' }) {
+  static authUserPasswordValidator() {
     try {
       return [
-        check(keyObj.key)
+        check('password')
           .not()
           .isIn(commonlyUsedPasswords)
           .withMessage('COMMONLY_USED_PASSWORD')
@@ -44,13 +41,7 @@ export default class Validators {
           .withMessage('PASSWORD_VALIDATION'),
       ];
     } catch (error) {
-      return error;
-    }
-  }
-  static basicInfoValidator() {
-    try {
-      return [check('code').optional().exists().withMessage('REQUIRED code')];
-    } catch (error) {
+      console.log(error);
       return error;
     }
   }
@@ -58,8 +49,8 @@ export default class Validators {
   static loginValidator() {
     try {
       return [
-        ...this.emailValidator(),
-        ...this.passwordValidator({ key: 'password' }),
+        ...Validators.userNameValidator(),
+        ...Validators.authUserPasswordValidator(),
       ];
     } catch (error) {
       throw new Error(error);
