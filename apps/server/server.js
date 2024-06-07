@@ -1,14 +1,22 @@
+import cors from 'cors';
+import 'dotenv/config';
 import express from 'express';
 import initializeRoutes from './app/routes/init.js';
+import initializeDb from './config/db.js';
 import { APIError, NotFoundError } from './utils/api-errors.js';
 import { error } from './utils/responseHandlers.js';
-import 'dotenv/config';
-import initializeDb from './config/db.js';
 
 const app = express();
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Enable CORS for all origins
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 
 app.get('/', (req, res) => {
   res.send('Hello World!!');
