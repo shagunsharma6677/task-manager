@@ -1,30 +1,31 @@
 import express from 'express';
+import { Globals } from '../../../config/Global.js';
 import { TaskController } from './task.controller.js';
 const router = express.Router();
 
-router.post('/create', (req, res, next) => {
+router.post('/create', Globals.isAuthorised, (req, res, next) => {
   const authObj = new TaskController().boot(req, res);
-  return authObj.createServer();
+  return authObj.createUserTask();
 });
 
-router.get('/getAll', (req, res, next) => {
+router.get('/getAll', Globals.isAuthorised, (req, res, next) => {
   const authObj = new TaskController().boot(req, res);
-  return authObj.createServer();
+  return authObj.getUserTask();
 });
 
 router.get('/:taskId/get', (req, res, next) => {
   const authObj = new TaskController().boot(req, res);
-  return authObj.createServer();
+  return authObj.getUserTask();
 });
 
-router.delete('/:taskId/delete', (req, res, next) => {
+router.delete('/:taskId/delete', Globals.isAuthorised, (req, res, next) => {
   const authObj = new TaskController().boot(req, res);
-  return authObj.deleteServer();
+  return authObj.deleteUserTask();
 });
 
-router.patch('/:taskId/edit', (req, res, next) => {
+router.patch('/:taskId/edit', Globals.isAuthorised, (req, res, next) => {
   const authObj = new TaskController().boot(req, res);
-  return authObj.editServer();
+  return authObj.editUserTask();
 });
 
 export default router;
