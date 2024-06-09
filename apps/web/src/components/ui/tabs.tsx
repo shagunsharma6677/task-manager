@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { AnimatedTooltip } from './animated-tooltip';
 import { Button } from './button';
+import { useNavigate } from 'react-router-dom';
 
 type Tab = {
   title: string;
@@ -38,6 +39,8 @@ export const Tabs = ({
   const [active, setActive] = useState<Tab | null | undefined>(initialTab);
   const [tabs, setTabs] = useState<Tab[]>(propTabs);
 
+  const navigate = useNavigate();
+
   const moveSelectedTabToTop = (idx: number) => {
     const newTabs = [...propTabs];
     const selectedTab: any = newTabs?.splice(idx, 1);
@@ -50,7 +53,8 @@ export const Tabs = ({
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.reload();
+    navigate('/login');
+    // window.location.reload()
   };
 
   return (
@@ -96,12 +100,12 @@ export const Tabs = ({
           <Button>
             <AnimatedTooltip items={people} />
           </Button>
-          <button
+          {/* <button
             onClick={handleLogout}
             className="inline-flex h-12 animate-shimmer items-center justify-center rounded-md border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 font-medium text-slate-400 transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
       {active && (
